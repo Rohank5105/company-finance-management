@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finora | Company Finance</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">F</span><div><strong>Finora</strong><small>FINANCE WORKSPACE</small></div></div>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+    <button class="nav-item" data-view="transactions"><span>⇄</span> Transactions</button>
+    <button class="nav-item" data-view="employees"><span>♙</span> Employees & Payroll</button>
+    <button class="nav-item" data-view="analysis"><span>◔</span> Financial Analysis</button>
+    <button class="nav-item" data-view="gst"><span>▤</span> GST Calculator</button>
+    <div class="sidebar-bottom"><div class="avatar">CF</div><div><strong>{{ username|e }}</strong><small>Signed in · Finance admin</small><form method="post" action="/logout" style="margin-top:8px"><button class="text-btn" type="submit">Sign out</button></form></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><div class="eyebrow">FINANCE OVERVIEW</div><h1 id="page-title">Dashboard</h1></div>
+      <div class="top-actions"><span class="date-pill" id="today"></span><button class="primary-btn" id="quick-add">＋ Add transaction</button></div>
+    </header>
+
+    <section class="view active" id="dashboard-view">
+      <div class="welcome"><div><div class="eyebrow light">COMPANY FINANCE MANAGEMENT</div><h2>Make every number count.</h2><p>Track income, control expenses, and understand your company's financial position.</p></div><div class="welcome-icon">↗</div></div>
+      <div class="metric-grid">
+        <article class="metric"><div class="metric-top"><span>Total income</span><span class="metric-icon green">↗</span></div><div class="metric-value" id="dash-income">₹0.00</div><div class="metric-note">All recorded income</div></article>
+        <article class="metric"><div class="metric-top"><span>Total expenses</span><span class="metric-icon orange">↘</span></div><div class="metric-value" id="dash-expenses">₹0.00</div><div class="metric-note">Recorded operating expenses</div></article>
+        <article class="metric"><div class="metric-top"><span>Monthly payroll</span><span class="metric-icon blue">♙</span></div><div class="metric-value" id="dash-payroll">₹0.00</div><div class="metric-note">Estimated from employee records</div></article>
+        <article class="metric"><div class="metric-top"><span>Net position</span><span class="metric-icon purple">◎</span></div><div class="metric-value" id="dash-net">₹0.00</div><div class="metric-note" id="dash-margin">Net position after expenses & payroll</div></article>
+      </div>
+      <div class="content-grid">
+        <section class="panel wide"><div class="panel-heading"><div><h3>Recent transactions</h3><p>Your latest recorded financial activity</p></div><button class="text-btn" data-go="transactions">View all →</button></div><div class="table-wrap"><table><thead><tr><th>TRANSACTION</th><th>DATE</th><th>CATEGORY</th><th class="right">AMOUNT</th></tr></thead><tbody id="recent-table"></tbody></table></div><div class="empty-state" id="recent-empty">No transactions yet. Add income or an expense to get started.</div></section>
+        <section class="panel"><div class="panel-heading"><div><h3>Income vs expenses</h3><p>Overall recorded totals</p></div></div><div class="comparison"><div class="compare-row"><div><span class="dot income-dot"></span>Income <strong id="compare-income">₹0</strong></div><div class="bar-track"><div class="bar income-bar" id="income-bar"></div></div></div><div class="compare-row"><div><span class="dot expense-dot"></span>Expenses <strong id="compare-expenses">₹0</strong></div><div class="bar-track"><div class="bar expense-bar" id="expense-bar"></div></div></div></div><div class="insight-box"><span class="insight-symbol">✦</span><div><strong>Quick insight</strong><p id="quick-insight">Add records to see your financial insight.</p></div></div></section>
+      </div>
+    </section>
+
+    <section class="view" id="transactions-view">
+      <div class="section-intro"><div><h2>Transactions</h2><p>Record and review company income and expenses.</p></div><button class="primary-btn" id="open-transaction">＋ New transaction</button></div>
+      <div class="filter-row"><input id="transaction-search" class="search" placeholder="Search description or category…" /><select id="type-filter"><option value="all">All types</option><option value="Income">Income</option><option value="Expense">Expense</option></select></div>
+      <section class="panel"><div class="table-wrap"><table><thead><tr><th>ID</th><th>DESCRIPTION</th><th>DATE</th><th>TYPE</th><th>CATEGORY</th><th class="right">AMOUNT</th><th></th></tr></thead><tbody id="transactions-table"></tbody></table></div><div class="empty-state" id="transactions-empty">No matching transactions found.</div></section>
+    </section>
+
+    <section class="view" id="employees-view">
+      <div class="section-intro"><div><h2>Employees & Payroll</h2><p>Maintain employee records and estimate monthly payroll.</p></div><button class="primary-btn" id="open-employee">＋ Add employee</button></div>
+      <div class="metric-grid compact"><article class="metric"><div class="metric-top"><span>Total employees</span><span class="metric-icon blue">♙</span></div><div class="metric-value" id="employee-count">0</div><div class="metric-note">Active records in this demo</div></article><article class="metric"><div class="metric-top"><span>Estimated payroll</span><span class="metric-icon green">₹</span></div><div class="metric-value" id="employee-payroll">₹0.00</div><div class="metric-note">Monthly estimate</div></article></div>
+      <section class="panel"><div class="panel-heading"><div><h3>Employee directory</h3><p>Contract salary uses an illustrative 5% deduction for this project demo.</p></div></div><div class="table-wrap"><table><thead><tr><th>EMPLOYEE</th><th>TYPE</th><th class="right">BASIC SALARY</th><th class="right">EST. TAKE-HOME</th><th></th></tr></thead><tbody id="employees-table"></tbody></table></div><div class="empty-state" id="employees-empty">No employees added yet.</div></section>
+    </section>
+
+    <section class="view" id="analysis-view">
+      <div class="section-intro"><div><h2>Financial Analysis</h2><p>A summary calculated from records saved in the server database.</p></div><button class="secondary-btn" id="export-csv">↓ Export transactions CSV</button></div>
+      <div class="metric-grid"><article class="metric"><div class="metric-top"><span>Total income</span><span class="metric-icon green">↗</span></div><div class="metric-value" id="analysis-income">₹0.00</div><div class="metric-note">Recorded income</div></article><article class="metric"><div class="metric-top"><span>Total outflow</span><span class="metric-icon orange">↘</span></div><div class="metric-value" id="analysis-outflow">₹0.00</div><div class="metric-note">Expenses + estimated payroll</div></article><article class="metric"><div class="metric-top"><span>Net margin</span><span class="metric-icon purple">%</span></div><div class="metric-value" id="analysis-margin">N/A</div><div class="metric-note">Net position divided by income</div></article></div>
+      <div class="content-grid"><section class="panel"><div class="panel-heading"><div><h3>Expense breakdown</h3><p>Share of recorded expenses by category</p></div></div><div id="category-breakdown" class="breakdown"></div><div class="empty-state" id="category-empty">Add expenses to generate category analysis.</div></section><section class="panel"><div class="panel-heading"><div><h3>Analysis summary</h3><p>Automated observations</p></div></div><div id="analysis-notes" class="notes-list"></div></section></div>
+      <p class="disclaimer">Educational project only. Figures are based on server-stored demo data and are not audited financial statements or tax advice.</p>
+    </section>
+
+    <section class="view" id="gst-view">
+      <div class="section-intro"><div><h2>GST Calculator</h2><p>Calculate an illustrative GST amount for a taxable value.</p></div></div>
+      <div class="gst-layout"><section class="panel gst-form"><h3>Invoice details</h3><label>Taxable value (₹)<input type="number" id="gst-value" min="0" placeholder="e.g. 25000" /></label><label>GST rate (%)<select id="gst-rate"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></label><button class="primary-btn full" id="calculate-gst">Calculate GST</button></section><section class="gst-result"><div class="eyebrow light">ESTIMATED INVOICE</div><h2 id="gst-total">₹0.00</h2><p>Invoice total including GST</p><div class="result-line"><span>Taxable value</span><strong id="gst-base">₹0.00</strong></div><div class="result-line"><span>GST amount</span><strong id="gst-amount">₹0.00</strong></div><div class="result-line"><span>GST rate</span><strong id="gst-rate-output">18%</strong></div></section></div>
+      <p class="disclaimer">Educational estimate only. Confirm the applicable GST rate and treatment independently before using any real invoice.</p>
+    </section>
+  </main>
+
+  <dialog id="transaction-dialog" class="modal"><form id="transaction-form"><div class="modal-head"><div><h2>Add transaction</h2><p>Enter the financial transaction details.</p></div><button type="button" class="close-btn" data-close="transaction-dialog">×</button></div><label>Transaction type<select id="tx-type"><option value="Income">Income</option><option value="Expense">Expense</option></select></label><label>Description<input id="tx-description" required maxlength="100" placeholder="e.g. Client payment / Office rent" /></label><div class="form-grid"><label>Date<input id="tx-date" type="date" required /></label><label>Amount (₹)<input id="tx-amount" type="number" min="0.01" step="0.01" required /></label></div><label id="category-label">Category<select id="tx-category"><option>Sales</option><option>Services</option><option>Interest</option><option>Other</option></select></label><div class="modal-actions"><button type="button" class="secondary-btn" data-close="transaction-dialog">Cancel</button><button class="primary-btn" type="submit">Save transaction</button></div></form></dialog>
+
+  <dialog id="employee-dialog" class="modal"><form id="employee-form"><div class="modal-head"><div><h2>Add employee</h2><p>Create an employee payroll record.</p></div><button type="button" class="close-btn" data-close="employee-dialog">×</button></div><label>Employee name<input id="emp-name" required maxlength="80" /></label><div class="form-grid"><label>Employee type<select id="emp-type"><option>Permanent</option><option>Contract</option></select></label><label>Basic monthly salary (₹)<input id="emp-salary" type="number" min="0" step="0.01" required /></label></div><div class="modal-actions"><button type="button" class="secondary-btn" data-close="employee-dialog">Cancel</button><button class="primary-btn" type="submit">Save employee</button></div></form></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
